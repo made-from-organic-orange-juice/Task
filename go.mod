@@ -2,4 +2,4 @@ module github.com/made-from-organic-orange-juice/task
 
 go 1.17
 
-require golang.org/x/sys v0.0.0-20211106132015-ebca88c72f68
+require github.com/gonutz/w32/v2 v2.2.2

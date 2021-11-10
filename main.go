@@ -2,34 +2,22 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/made-from-organic-orange-juice/task/wpsapi"
 )
 
 func main() {
-	NextSystemSnapShot := wpsapi.SystemSnapShot{}.SystemSnapShotIterator()
 
-	for {
+	wModules, err := wpsapi.SystemSnapshot{}.New()
+	if err != nil {
+		log.Fatalf("error: %s", err)
+	}
 
-		sysSnap, err := NextSystemSnapShot()
-		if err != nil {
-			fmt.Printf("%s", err)
-			break
-		}
+	instancesMap := wModules.CountInstances()
 
-		fmt.Printf("Process: %s \n", sysSnap.Process.Name)
-		fmt.Printf("----> Modules: \n")
-
-		nextModule := sysSnap.Modules.Iterator()
-		if err != nil {
-			fmt.Printf("%s", err)
-			break
-		}
-
-		for m, err := nextModule(); err == nil; m, err = nextModule() {
-			fmt.Printf("-------> %s %s\n", m.BaseName, m.Path)
-		}
-
+	for key, val := range instancesMap {
+		fmt.Printf("Process: %s, Instances: %d\n", key, val)
 	}
 
 }
